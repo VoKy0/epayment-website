@@ -1,21 +1,65 @@
 <?php require_once('./config.php') ?>
 
-<div class="container py-5">
-    <div class="card card-outline-primary" style="padding: 20px; border-radius: 15px;">
-        <h2 style="font-weight: bold; font-size: 24px;">Top Up</h2>
-        <form action="confirmation_top_up.php" method="POST" id="top_up_form"> <!-- Chuyển hướng đến confirmation_top_up.php -->
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .card-outline-primary {
+        background-color: #d5dae1;
+        border: none;
+        border-radius: 10px;
+        padding: 20px;
+        width: 45%;
+    }
+    h2 {
+        font-weight: bold;
+        font-size: 28px;
+    }
+    .form-group label {
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .source-option {
+        border: 1px solid #c5cbd3;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #fff;
+    }
+    .source-option:hover {
+        border-color: #1f2a37;
+    }
+    .source-option div:first-child {
+        font-size: 16px;
+        font-weight: bold;
+        color: #1f2a37;
+    }
+    .source-option div:last-child {
+        color: #657786;
+    }
+    .btn-dark {
+        background-color: #1f2a37;
+        border: none;
+    }
+    .btn-link {
+        font-size: 14px;
+        color: #1f2a37;
+    }
+</style>
+
+<div class="container">
+    <!-- Left Section: Source of Fund -->
+    <div class="card card-outline-primary">
+        <h2>Source of fund</h2>
+        <form action="confirmation_transfer.php" method="POST" id="transfer_form">
             <div class="form-group">
-                <label for="top_up_amount" class="control-label">Top-up amount</label>
-                <input type="number" class="form-control" id="top_up_amount" name="amount" placeholder="0 VND" required>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Source of fund</label>
+                <label class="control-label">Fee schedule</label>
 
                 <!-- Vietcombank Option -->
                 <div class="source-option d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <div>Vietcombank</div>
-                        <div style="font-size: 0.9em;">Balance: 20.000.000 VND</div>
+                        <div>Balance: 20.000.000 VND</div>
                     </div>
                     <input type="radio" name="payment_method" value="Vietcombank" required>
                 </div>
@@ -24,7 +68,7 @@
                 <div class="source-option d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <div>VISA</div>
-                        <div style="font-size: 0.9em;">Balance: 10.000.000 VND</div>
+                        <div>Balance: 10.000.000 VND</div>
                     </div>
                     <input type="radio" name="payment_method" value="VISA" required>
                 </div>
@@ -49,9 +93,18 @@
                     <button type="button" id="add_selected_bank" class="btn btn-primary btn-sm mt-2">Add Selected Bank</button>
                 </div>
             </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-dark btn-lg" style="width: 100px;" onclick="changeAction()">Top Up</button>
-            </div>
+    </div>
+
+    <!-- Right Section: Transfer Amount -->
+    <div class="card card-outline-primary">
+        <h2>Transfer</h2>
+        <div class="form-group">
+            <label for="transfer_amount">Transfer amount</label>
+            <input type="number" class="form-control" id="transfer_amount" name="amount" placeholder="0 VND" required>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-dark btn-lg" style="width: auto;" onclick="changeAction()">Transfer</button>
+        </div>
         </form>
     </div>
 </div>
@@ -59,37 +112,37 @@
 <script>
     function changeAction() {
         // Thay đổi action của form để chuyển hướng sang confirmation_top_up
-        var form = document.getElementById('top_up_form');
-        form.action = window.location.origin + '/oph/?page=confirmation_top_up'; // Thay đổi action của form
+        var form = document.getElementById('transfer_form');
+        form.action = window.location.origin + '/oph/?page=confirmation_transfer';
     }
 
     $(function(){
-        // Show dropdown for additional banks on "Add banks" button click
+        // Hiển thị dropdown cho ngân hàng bổ sung khi nhấn nút "Thêm ngân hàng"
         $('#add_bank_btn').on('click', function() {
             $('#bank_selection_dropdown').toggle();
         });
 
-        // Add selected bank to the options list and remove it from the dropdown
+        // Thêm ngân hàng đã chọn vào danh sách các tùy chọn và xóa khỏi dropdown
         $('#add_selected_bank').on('click', function() {
             const selectedBank = $('#additional_bank_options option:selected');
             const bankName = selectedBank.val();
             const bankBalance = selectedBank.data('balance');
 
-            // Add selected bank as a new option
+            // Thêm ngân hàng đã chọn như một tùy chọn mới
             $('#additional_payment_options').prepend(`
                 <div class="source-option d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <div>${bankName}</div>
-                        <div style="font-size: 0.9em;">Balance: ${bankBalance}</div>
+                        <div style="font-size: 0.9em;">Số dư: ${bankBalance}</div>
                     </div>
                     <input type="radio" name="payment_method" value="${bankName}" checked>
                 </div>
             `);
 
-            // Remove the selected bank from the dropdown
+            // Xóa ngân hàng đã chọn khỏi dropdown
             selectedBank.remove();
 
-            // Hide dropdown after adding and reset selection
+            // Ẩn dropdown sau khi thêm và đặt lại lựa chọn
             $('#bank_selection_dropdown').hide();
         });
     });
