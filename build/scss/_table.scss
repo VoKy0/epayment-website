@@ -134,6 +134,7 @@
   .table-hover {
     tbody tr:hover {
       color: $gray-300;
+      // color: $blue;
       background-color: lighten($dark, 2.5%);
       border-color: $gray-600;
     }

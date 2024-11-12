@@ -64,14 +64,16 @@
 </div>
 <script>
     paypal.Button.render({
-    env: 'sandbox', // change for production if app is live,
+    // env: 'sandbox', // change for production if app is live,
+    env: 'production',
  
         //app's client id's
 	  client: {
         // for test only
-        sandbox:    'AdDNu0ZwC3bqzdjiiQlmQ4BRJsOarwyMVD_L4YQPrQm4ASuBg4bV5ZoH-uveg8K_l9JLCmipuiKt4fxn',
+        // sandbox:    'AdDNu0ZwC3bqzdjiiQlmQ4BRJsOarwyMVD_L4YQPrQm4ASuBg4bV5ZoH-uveg8K_l9JLCmipuiKt4fxn',
+        // sandbox: 'AbTQLuZGxB68Pl0NEo3brbyNXoXokNvdNNx037lM1QV6rqLPz2qF11N_iAk09duijhV6a__ENm6yB4Lg',
         // for live only
-        //production: 'AaBHKJFEej4V6yaArjzSx9cuf-UYesQYKqynQVCdBlKuZKawDDzFyuQdidPOBSGEhWaNQnnvfzuFB9SM'
+        production: 'AVzfkCABE40R8daWVgi2OrlhTS-eEnaDIo9A-eozDfPgebecY5cYnCvclww-HZ0bHBxHgourNASSQBkx'
     },
  
     commit: true, // Show a 'Pay Now' button
